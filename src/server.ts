@@ -28,18 +28,20 @@ store.dispatch(getFiles())
 
 app.get('/list', (req: Request, res: Response) => {
 	const { files } = store.getState()
-	res.json(files)
+	const { value } = files
+	res.json(value)
 })
 
 app.get('/scan', (req: Request, res: Response) => {
 	store.dispatch(scanFiles())
-	const files = store.getState()
-	res.json(files)
+	const { files: { value } } = store.getState()
+	res.json(value)
 })
 
 app.get('/download-state', (req: Request, res: Response) => {
 	const { files } = store.getState()
-	writeFileSync('state.json', JSON.stringify(files))
+	const { value } = files
+	writeFileSync('state.json', JSON.stringify(value))
 	res.download('state.json')
 })
 
